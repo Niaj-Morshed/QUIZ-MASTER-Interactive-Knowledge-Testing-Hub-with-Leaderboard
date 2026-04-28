@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz App</title>
+
+<style>
+/* =========================
+   1. THEME VARIABLES
+========================= */
+:root {
+  --bg: #f5f5f5;
+  --text: #111;
+  --card: #ffffff;
+
+  /* NEW: gradient buttons */
+  --gradient: linear-gradient(135deg, #6a11cb, #2575fc);
+  --gradient2: linear-gradient(135deg, #ff512f, #dd2476);
+}
+
+/* Dark mode */
+body.dark {
+  --bg: #0b1220;
+  --text: #fff;
+  --card: #1c2535;
+}
+
+/* =========================
+   2. BODY (with fade animation)
+========================= */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--text);
+
+  /* NEW: smooth theme transition */
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* =========================
+   3. MAIN APP CARD (ANIMATED)
+========================= */
+.app {
+  width: 380px;
+  background: var(--card);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+
+  /* NEW: entrance animation */
+  animation: popIn 0.6s ease;
+}
+
+/* APP ANIMATION */
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   4. TOP HEADER
+========================= */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* TITLE (BIGGER + MORE PRO LOOK) */
+.top h1 {
+  margin: 0;
+  font-size: 34px;  
+
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: glow 2s infinite alternate;
+}
+
+/* TITLE GLOW */
+@keyframes glow {
+  from { filter: drop-shadow(0 0 5px #6a11cb); }
+  to { filter: drop-shadow(0 0 10px #2575fc); }
+}
+
+/* =========================
+   5. DARK/LIGHT BUTTON (ANIMATED)
+========================= */
+.toggle-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  /* NEW: gradient button */
+  background: var(--gradient);
+  color: white;
+
+  transition: 0.3s;
+}
+
+/* hover effect */
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* =========================
+   INPUT BOX FIX (SAFE PADDING)
+========================= */
+input {
+  width: 100%;
+  padding: 10px;
+
+  margin-top: 14px;   
+  
+  box-sizing: border-box;
+
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+
+  transition: 0.2s;
+}
+
+/* input focus effect */
+input:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 8px rgba(106,17,203,0.4);
+}
+
+/* =========================
+   7. SUBMIT BUTTON (VERY COLORFUL)
+========================= */
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+
+  /* 🔥 NEW: bottom space */
+  margin-bottom: 25px;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  background: var(--gradient2);
+  color: white;
+
+  transition: 0.3s;
+}
+
+/* hover animation */
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* click effect */
+.submit-btn:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   8. FOOTER
+========================= */
+.footer {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 12px;
+}
+    
+    
+    
+ /* NAME INPUT ONLY SPACE */
+input:first-of-type {
+  margin-top: 40px; 
+}
+    
+    
+/* =========================
+   SUCCESS BOX STYLE
+========================= */
+.success-box {
+  text-align: center;
+  padding: 40px 10px;
+  font-size: 20px;
+} 
+    
+    
+    
+  /* =========================
+   CATEGORY DROPDOWN STYLE
+========================= */
+.category-box {
+  width: 100%;
+  padding: 10px;
+  margin-top: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: 0.2s;
+}
+
+/* focus effect */
+.category-box:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 8px rgba(106,17,203,0.4);
+}  
+ 
+    
+ /* =========================
+   SUCCESS TEXT SMALL
+========================= */
+.success-box h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 15px;
+}   
+    
+ 
+    
+ /* =========================
+   START QUIZ BUTTON
+========================= */
+.start-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+}   
+    
+ 
+    
+    
+/* =========================
+   CATEGORY DISPLAY TEXT
+========================= */
+#selectedCategoryText {
+  margin: 10px 0 15px 0;
+  font-size: 14px;
+  opacity: 0.8;
+}    
+    
+    
+ 
+ /* =========================
+   BACK BUTTON STYLE
+========================= */
+.back-btn {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  background: #444;
+  color: white;
+
+  transition: 0.3s;
+}
+
+/* hover effect */
+.back-btn:hover {
+  background: #000;
+  transform: scale(1.05);
+}   
+    
+    
+ 
+/* =========================
+   QUIZ OPTIONS
+========================= */
+.option-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #eee;
+  transition: 0.3s;
+}
+
+.option-btn:hover {
+  background: #ddd;
+}  
+  
+  
+    
+    
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     APP CONTAINER
+========================= -->
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="top">
+    <h1>Quiz App</h1>
+
+    <!-- DARK/LIGHT BUTTON -->
+    <button class="toggle-btn" onclick="toggleMode()">
+      Dark / Light
+    </button>
+  </div>
+
+  <!-- INPUTS -->
+  <input id="name" type="text" placeholder="Name">
+<input id="email" type="email" placeholder="Email">
+<input id="number" type="text" placeholder="Number">
+
+  
+   <!-- Category -->  
+   <select id="category" class="category-box">
+  <option value="">Select Category</option>
+
+  <option value="Math">Math</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="ICT / Computer">ICT / Computer</option>
+  <option value="Physics">Physics</option>
+  <option value="Chemistry">Chemistry</option>
+  <option value="Biology">Biology</option>
+  <option value="General Knowledge">General Knowledge</option>
+  <option value="Basic Programming">Basic Programming</option>
+  <option value="IQ Test">IQ Test</option>
+</select> 
+    
+    
+    
+
+  <!-- SUBMIT -->
+  <button class="submit-btn" onclick="submitForm()">Submit</button>
+    
+  <!-- SUCCESS SCREEN (NEW ADD) -->
+<div class="success-box" id="successBox" style="display:none;">
+  
+  <h2>✅ Successfully Submitted!</h2>
+
+  <!-- NEW LINE (category show) -->
+  <p id="selectedCategoryText"></p>
+
+  <button class="start-btn" onclick="startQuiz()">
+    Start Quiz
+  </button>
+    
+   <button class="back-btn" onclick="goBack()">
+  Back
+</button> 
+</div>
+
+  
+  
+  
+  
+  
+ <!-- QUIZ UI -->
+<div id="quizBox" style="display:none; margin-top:20px;">
+
+  <p id="timerText">Time Left: 5s</p>
+
+  <h3 id="questionText"></h3>
+
+  <div id="optionsBox"></div>
+
+</div> 
+  
+    
+
+<!-- RESULT SCREEN -->
+<div id="resultBox" style="display:none; text-align:center; margin-top:20px;">
+  <h2>Quiz Finished 🎉</h2>
+
+  <p id="scoreText"></p>
+
+  <button class="start-btn" onclick="goToHome()">
+    Go Home
+  </button>
+
+  <h3>🏆 Leaderboard</h3>
+  <ul id="leaderboardList"></ul>
+  <canvas id="scoreChart" width="300" height="200"></canvas>
+</div> 
+  
+  
+     
+    
+  <!-- FOOTER -->
+  <div class="footer" id="footer">
+    ©️ 2026 Quiz App | Developed by Niaj Morshed
+  </div>
+</div>
+
+    
+    
+    
+    
+    
+    
+    
+<script>
+ /* =========================
+   QUIZ QUESTION DATABASE
+========================= */
+const quizData = {
+  
+  "Math": [
+    { q: "2 + 2 = ?", options: ["3", "4", "5", "6"], answer: "4" },
+    { q: "5 x 3 = ?", options: ["15", "10", "20", "8"], answer: "15" },
+    { q: "10 - 7 = ?", options: ["2", "3", "4", "5"], answer: "3" },
+    { q: "9 ÷ 3 = ?", options: ["1", "2", "3", "4"], answer: "3" },
+    { q: "6 + 4 = ?", options: ["8", "9", "10", "11"], answer: "10" }
+  ],
+
+  "Science": [
+    { q: "Water formula?", options: ["CO2", "H2O", "O2", "NaCl"], answer: "H2O" },
+    { q: "Sun is a?", options: ["Planet", "Star", "Moon", "Gas"], answer: "Star" },
+    { q: "Earth shape?", options: ["Flat", "Round", "Cube", "Triangle"], answer: "Round" },
+    { q: "Plants make food by?", options: ["Photosynthesis", "Breathing", "Eating", "Drinking"], answer: "Photosynthesis" },
+    { q: "Air contains?", options: ["Oxygen", "Water", "Soil", "Fire"], answer: "Oxygen" }
+  ],
+
+  "English": [
+    { q: "Plural of cat?", options: ["Cats", "Cat", "Cates", "Cat's"], answer: "Cats" },
+    { q: "Opposite of big?", options: ["Small", "Tall", "Wide", "Long"], answer: "Small" },
+    { q: "He ___ going.", options: ["is", "are", "am", "be"], answer: "is" },
+    { q: "Synonym of happy?", options: ["Sad", "Joyful", "Angry", "Tired"], answer: "Joyful" },
+    { q: "Past of go?", options: ["Goed", "Went", "Gone", "Going"], answer: "Went" }
+  ],
+
+  "ICT / Computer": [
+    { q: "CPU means?", options: ["Central Process Unit", "Central Processing Unit", "Computer Unit", "Core Unit"], answer: "Central Processing Unit" },
+    { q: "Keyboard is?", options: ["Input", "Output", "Storage", "None"], answer: "Input" },
+    { q: "Mouse is?", options: ["Animal", "Device", "Food", "App"], answer: "Device" },
+    { q: "Monitor shows?", options: ["Input", "Output", "Data", "Code"], answer: "Output" },
+    { q: "RAM is?", options: ["Memory", "Disk", "CPU", "Screen"], answer: "Memory" }
+  ],
+
+  "Physics": [
+    { q: "Speed unit?", options: ["m/s", "kg", "N", "J"], answer: "m/s" },
+    { q: "Gravity pulls?", options: ["Up", "Down", "Left", "Right"], answer: "Down" },
+    { q: "Force unit?", options: ["N", "J", "W", "m"], answer: "N" },
+    { q: "Light speed?", options: ["Fast", "Slow", "Medium", "Zero"], answer: "Fast" },
+    { q: "Energy unit?", options: ["Joule", "Meter", "Kg", "Second"], answer: "Joule" }
+  ],
+
+  "Chemistry": [
+    { q: "NaCl is?", options: ["Salt", "Water", "Gas", "Acid"], answer: "Salt" },
+    { q: "pH < 7?", options: ["Acid", "Base", "Neutral", "Salt"], answer: "Acid" },
+    { q: "Oxygen symbol?", options: ["O", "Ox", "Oy", "Om"], answer: "O" },
+    { q: "HCl is?", options: ["Acid", "Base", "Gas", "Salt"], answer: "Acid" },
+    { q: "CO2 is?", options: ["Gas", "Liquid", "Solid", "Metal"], answer: "Gas" }
+  ],
+
+  "Biology": [
+    { q: "Heart pumps?", options: ["Air", "Blood", "Water", "Food"], answer: "Blood" },
+    { q: "Plants are?", options: ["Living", "Non-living", "Dead", "None"], answer: "Living" },
+    { q: "Human has how many eyes?", options: ["1", "2", "3", "4"], answer: "2" },
+    { q: "Brain controls?", options: ["Body", "Water", "Food", "Air"], answer: "Body" },
+    { q: "Animals need?", options: ["Air", "Water", "Food", "All"], answer: "All" }
+  ],
+
+  "General Knowledge": [
+    { q: "Capital of Bangladesh?", options: ["Dhaka", "Chittagong", "Sylhet", "Khulna"], answer: "Dhaka" },
+    { q: "National animal?", options: ["Tiger", "Lion", "Cow", "Dog"], answer: "Tiger" },
+    { q: "Red planet?", options: ["Mars", "Earth", "Venus", "Jupiter"], answer: "Mars" },
+    { q: "Sun rises in?", options: ["East", "West", "North", "South"], answer: "East" },
+    { q: "Flag color?", options: ["Green", "Blue", "Red", "Yellow"], answer: "Green" }
+  ],
+
+  "Basic Programming": [
+    { q: "HTML stands for?", options: ["Hyper Text Markup Language", "High Text Machine Language", "Hyper Tool", "None"], answer: "Hyper Text Markup Language" },
+    { q: "JS is?", options: ["Language", "Food", "Game", "App"], answer: "Language" },
+    { q: "CSS used for?", options: ["Style", "Logic", "Data", "Math"], answer: "Style" },
+    { q: "Variable stores?", options: ["Data", "Water", "Food", "Air"], answer: "Data" },
+    { q: "Console used for?", options: ["Debug", "Play", "Eat", "Sleep"], answer: "Debug" }
+  ],
+
+  "IQ Test": [
+    { q: "Next: 2,4,6?", options: ["8", "7", "9", "10"], answer: "8" },
+    { q: "Odd one?", options: ["Apple", "Mango", "Car", "Banana"], answer: "Car" },
+    { q: "5+5?", options: ["10", "11", "12", "9"], answer: "10" },
+    { q: "Sun is?", options: ["Hot", "Cold", "Dark", "Wet"], answer: "Hot" },
+    { q: "1,3,5?", options: ["7", "6", "8", "9"], answer: "7" }
+  ]
+
+}; 
+  
+  
+  
+  
+  
+  
+let currentQuestionIndex = 0;
+let currentCategory = "";  
+let timer;
+let timeLeft = 5;  
+let score = 0;  
+let wrong = 0;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+/* =========================
+   DARK / LIGHT TOGGLE
+   👉 No change needed here
+========================= */
+function toggleMode() {
+  document.body.classList.toggle("dark");
+}
+    
+    
+    
+    
+    
+    
+ 
+/* =========================
+   FORM VALIDATION + SCREEN SWITCH
+========================= */
+function submitForm() {
+  
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let number = document.getElementById("number").value;
+    
+   let category = document.getElementById("category").value;
+
+// Category must be selected
+if (category === "") {
+  alert("Please select a category!");
+  return;
+}
+    
+
+  let nameCheck = /^[A-Za-z\s]+$/;
+  let emailCheck = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let numberCheck = /^[0-9]+$/;
+
+  if (!nameCheck.test(name)) {
+    alert("Name must be letters only");
+    return;
+  }
+
+  if (!emailCheck.test(email)) {
+    alert("Invalid email");
+    return;
+  }
+
+  if (!numberCheck.test(number)) {
+    alert("Number must be digits only");
+    return;
+  }
+
+  // =========================
+  // HIDE ONLY FORM + FOOTER
+  // (NOT HEADER)
+  // =========================
+  document.querySelectorAll("input, select").forEach(el => el.style.display = "none");
+document.querySelector(".submit-btn").style.display = "none";
+document.querySelector(".footer").style.display = "none";
+
+  // SHOW SUCCESS BOX
+ document.getElementById("selectedCategoryText").innerText =
+  "Your selected category is ➜ " + category;   
+    
+  document.getElementById("successBox").style.display = "block";
+  localStorage.setItem("quizState", "success");
+localStorage.setItem("quizCategory", category);  
+}
+    
+   
+    
+    
+  
+    
+    
+    
+/* =========================
+   START QUIZ BUTTON ACTION
+========================= */
+function startQuiz() {
+  
+   if (!currentCategory) {
+    currentCategory = localStorage.getItem("quizCategory");
+  }
+  // reset
+  localStorage.setItem("currentIndex", 0);
+  localStorage.setItem("score", 0);
+
+  // save quiz state
+  localStorage.setItem("quizState", "quiz");
+  
+  // get selected category
+  currentCategory = localStorage.getItem("quizCategory");
+
+  // hide success screen
+  document.getElementById("successBox").style.display = "none";
+
+  // show quiz UI
+  document.getElementById("quizBox").style.display = "block";
+
+  // reset question index
+  currentQuestionIndex = 0;
+  score = 0; 
+  
+  // load first question
+  loadQuestion();
+} 
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  /* =========================
+   LOAD QUESTION FUNCTION
+========================= */
+function loadQuestion() {
+  
+  localStorage.setItem("currentIndex", currentQuestionIndex);
+  let questionData = quizData[currentCategory][currentQuestionIndex];
+  
+  // reset timer
+clearInterval(timer);
+timeLeft = 10;
+document.getElementById("timerText").innerText = "Time Left: " + timeLeft + "s";
+
+// start timer
+timer = setInterval(() => {
+  timeLeft--;
+  document.getElementById("timerText").innerText = "Time Left: " + timeLeft + "s";
+
+  if (timeLeft === 0) {
+    clearInterval(timer);
+    nextQuestion();
+  }
+}, 1000);
+
+  // show question
+  document.getElementById("questionText").innerText = questionData.q;
+
+  // clear old options
+  let optionsBox = document.getElementById("optionsBox");
+  optionsBox.innerHTML = "";
+
+  // create options
+  questionData.options.forEach(option => {
+
+    let btn = document.createElement("button");
+    btn.innerText = option;
+    btn.classList.add("option-btn");
+
+    btn.onclick = function () {
+
+  clearInterval(timer);
+
+  let correctAnswer = questionData.answer;
+
+  if (option === correctAnswer) {
+    btn.style.background = "green";
+    score++;
+  } else {
+    btn.style.background = "red";
+    wrong++;
+  }
+
+  Array.from(optionsBox.children).forEach(b => {
+    if (b.innerText === correctAnswer) {
+      b.style.background = "green";
+    }
+    b.disabled = true;
+  });
+
+  setTimeout(() => {
+    nextQuestion();
+  }, 800);
+};
+
+    optionsBox.appendChild(btn);
+  });
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ /* =========================
+   NEXT QUESTION
+========================= */
+function nextQuestion() {
+
+  clearInterval(timer);
+
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < quizData[currentCategory].length) {
+    loadQuestion();
+  } else {
+
+    // hide quiz
+    document.getElementById("quizBox").style.display = "none";
+
+    // show result
+    document.getElementById("resultBox").style.display = "block";
+
+    let total = quizData[currentCategory].length;
+
+    let percent = Math.round((score / total) * 100);
+
+    let status = percent >= 60 ? "Pass 🎉" : "Fail 😢";
+
+    document.getElementById("scoreText").innerHTML =
+      `
+      Your Score: ${score} / ${total}<br>
+      Wrong: ${wrong}<br>
+      Percentage: ${percent}%<br>
+      Status: ${status}
+      `;
+
+    // leaderboard save
+let user = document.getElementById("name").value.trim();
+if (!user) user = localStorage.getItem("playerName") || "Guest";
+
+let category = currentCategory || localStorage.getItem("quizCategory") || "Unknown";
+
+// save name for later
+localStorage.setItem("playerName", user);
+
+let data = {
+  name: user,
+  score: score,
+  category: category
+};
+
+// old data
+let old = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+// 🔥 FIND same user
+let existing = old.find(item => item.name === user);
+
+if (existing) {
+  // 🔥 UPDATE ONLY IF NEW SCORE IS HIGHER
+  if (score > existing.score) {
+    existing.score = score;
+    existing.category = category;
+  }
+} else {
+  // new user
+  old.push(data);
+}
+
+// save
+localStorage.setItem("leaderboard", JSON.stringify(old));
+    showLeaderboard(); 
+    drawChart();
+    localStorage.setItem("score", score);
+localStorage.setItem("quizState", "result");
+  }
+}
+
+  
+  
+  
+    
+    
+    
+    
+    
+ 
+ /* =========================
+   BACK TO FORM FUNCTION
+========================= */
+function goBack() {
+
+  let state = localStorage.getItem("quizState");
+
+  if (state === "quiz") {
+    return;
+  }
+
+  document.querySelector(".top").style.display = "flex";
+
+  document.querySelectorAll("input, select").forEach(el => el.style.display = "block");
+  document.querySelector(".submit-btn").style.display = "block";
+  document.querySelector(".footer").style.display = "block";
+
+  document.getElementById("successBox").style.display = "none";
+
+  localStorage.setItem("quizState", "form");
+}  
+    
+ 
+    
+    
+    
+    
+    
+ /* =========================
+   PAGE LOAD
+========================= */    
+window.onload = function () {
+
+  let state = localStorage.getItem("quizState");
+  let category = localStorage.getItem("quizCategory");
+
+  let savedIndex = parseInt(localStorage.getItem("currentIndex")) || 0;
+  let savedScore = parseInt(localStorage.getItem("score")) || 0;
+
+  
+  
+  
+  // =========================
+  // SUCCESS PAGE
+  // =========================
+  if (state === "success") {
+
+    document.querySelectorAll("input, select").forEach(el => el.style.display = "none");
+    document.querySelector(".submit-btn").style.display = "none";
+    document.querySelector(".footer").style.display = "none";
+
+    document.getElementById("successBox").style.display = "block";
+
+    document.getElementById("selectedCategoryText").innerText =
+      "Your selected category is ➜ " + category;
+  }
+
+
+  
+  
+  // =========================
+  // QUIZ PAGE (RESUME)
+  // =========================
+  if (state === "quiz") {
+
+    currentCategory = category;
+    currentQuestionIndex = savedIndex;
+    score = savedScore;
+
+    document.querySelectorAll("input, select").forEach(el => el.style.display = "none");
+    document.querySelector(".submit-btn").style.display = "none";
+    document.querySelector(".footer").style.display = "none";
+    document.getElementById("successBox").style.display = "none";
+
+    document.getElementById("quizBox").style.display = "block";
+
+    loadQuestion();
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  // =========================
+  // RESULT PAGE (RESUME)
+  // =========================
+  if (state === "result") {
+
+    currentCategory = category;
+    score = savedScore;
+
+    document.querySelectorAll("input, select").forEach(el => el.style.display = "none");
+    document.querySelector(".submit-btn").style.display = "none";
+    document.querySelector(".footer").style.display = "none";
+    document.getElementById("successBox").style.display = "none";
+    document.getElementById("quizBox").style.display = "none";
+
+    document.getElementById("resultBox").style.display = "block";
+
+    let total = quizData[category].length;
+
+let percent = Math.round((score / total) * 100);
+let status = percent >= 60 ? "Pass 🎉" : "Fail 😢";
+
+document.getElementById("scoreText").innerHTML =
+  `
+  Your Score: ${score} / ${total}<br>
+  Percentage: ${percent}%<br>
+  Status: ${status}
+  `;
+
+    showLeaderboard();
+    drawChart();
+  }
+
+};
+  
+  
+  
+  
+  
+
+// =========================
+// Go To Home
+// ========================= 
+function goToHome() {
+
+  localStorage.setItem("quizState", "form");
+  localStorage.removeItem("quizCategory");
+  localStorage.removeItem("currentIndex");
+  localStorage.removeItem("score");
+
+  score = 0;
+  wrong = 0;
+  currentQuestionIndex = 0;
+
+  document.getElementById("resultBox").style.display = "none";
+  document.getElementById("quizBox").style.display = "none";
+  document.getElementById("successBox").style.display = "none";
+
+  document.querySelectorAll("input, select").forEach(el => {
+    el.style.display = "block";
+    el.value = "";
+  });
+
+  // 🔥 এইখানে বসবে
+  document.getElementById("name").value = "";
+
+  document.querySelector(".submit-btn").style.display = "block";
+  document.querySelector(".footer").style.display = "block";
+}
+
+  
+  
+
+   
+  
+// =========================
+// Show Leader Board
+// =========================  
+function showLeaderboard() {
+
+  let list = document.getElementById("leaderboardList");
+  list.innerHTML = "";
+
+  let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  data.sort((a, b) => b.score - a.score);
+
+  data.slice(0, 5).forEach((item, index) => {
+
+    let color = "";
+    if (index === 0) color = "gold";
+    else if (index === 1) color = "silver";
+    else if (index === 2) color = "#cd7f32"; // bronze
+    
+    let li = document.createElement("li");
+    li.style.color = color;
+    li.style.fontWeight = "bold";
+    
+    let badge = "";
+
+    if (index === 0) badge = "🥇";
+    else if (index === 1) badge = "🥈";
+    else if (index === 2) badge = "🥉";
+    
+    li.innerText =
+  `${badge} ${index + 1}. ${item.name} - ${item.score} (${item.category})`;
+
+    list.appendChild(li);
+  });
+}
+  
+  
+ 
+  
+ 
+  
+  
+  
+// =========================
+// Draw Chart
+// =========================   
+  
+ function drawChart() {
+
+  let canvas = document.getElementById("scoreChart");
+  let ctx = canvas.getContext("2d");
+
+  let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  data.sort((a, b) => b.score - a.score);
+
+  let top = data.slice(0, 5);
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  let barWidth = 40;
+  let gap = 20;
+
+  top.forEach((item, index) => {
+
+    let x = index * (barWidth + gap) + 20;
+    let height = item.score * 20;
+
+    ctx.fillStyle = "#2575fc";
+    ctx.fillRect(x, canvas.height - height, barWidth, height);
+
+    ctx.fillStyle = "#000";
+    ctx.fillText(item.name, x, canvas.height - 5);
+  });
+} 
+  
+  
+  
+
+    
+</script>
+
+</body>
+</html>
